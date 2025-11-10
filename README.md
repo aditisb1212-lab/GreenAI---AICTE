@@ -89,6 +89,7 @@ Metric: Mean Absolute Error (MAE)
 The model achieved stable convergence with low validation loss, demonstrating strong generalization to unseen days.
 
 📊 Results and Visualization
+
 🔹 1. Training vs Validation Loss
 
 Shows model convergence and overfitting behavior.
