@@ -101,7 +101,7 @@ Displays how closely predicted usage follows real consumption patterns.
 
 Example:
 
-💧 Predicted next-day water usage: 421.56 liters
+💧 Predicted next-day water usage: 144.43 liters
 
 💡 Sustainability Impact
 
