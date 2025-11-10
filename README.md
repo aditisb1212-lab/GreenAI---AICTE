@@ -1,102 +1,121 @@
-# GreenAI---AICTE
-📘 Problem Statement
+#GreenAI---AICTE
+💧 CNN–LSTM Hybrid Model for Sustainable Water Usage Prediction
+🧭 Project Overview
 
-Efficient water management is one of the biggest sustainability challenges faced by modern cities. Households often overuse or underutilize water due to lack of awareness of actual needs influenced by temperature, humidity, and lifestyle factors.
-The goal of this project is to predict daily household water usage using environmental and behavioral data such as temperature, humidity, number of residents, and day of the week.
-This prediction can help individuals and authorities optimize water consumption, reduce waste, and plan sustainable usage strategies.
+Efficient water management is one of the biggest sustainability challenges faced by modern cities.
+Households often overuse or underutilize water due to a lack of awareness of actual needs influenced by environmental and behavioral factors.
 
-🧠 Concept
+This project leverages AI-driven forecasting to predict daily household water consumption based on environmental and household variables such as temperature, humidity, number of residents, and day of the week.
+By providing accurate daily predictions, the model aims to help individuals and authorities optimize water usage, reduce waste, and plan sustainable resource strategies.
 
-The project aims to forecast daily water consumption for a household based on climate and demographic factors. By integrating environmental conditions and human behavior, it helps connect climate + behavior + sustainability.
+🌱 Problem Statement
 
-⚙️ How It Works
+Households often lack insights into how environmental and lifestyle factors affect water consumption.
+Due to this, cities face inefficient water distribution and wastage, especially during heatwaves or peak hours.
+The goal of this project is to predict next-day household water usage using the past 7 days of environmental and behavioral data.
 
-Input:
+🎯 Objectives
 
-Temperature
+Predict next-day water consumption using previous daily records.
 
-Humidity
+Analyze the influence of environmental parameters (temperature, humidity).
 
-Number of people in the household
+Develop a sustainable decision-support system for smart cities and households.
 
-Day of the week
+Demonstrate an explainable, data-driven approach to sustainable water management.
 
-Model Used:
+🧩 Dataset Description
 
-Linear Regression
+The dataset contains (simulated or real) daily records with the following features:
 
-XGBoost (for better accuracy and non-linear relationships)
+Feature	Description
+temperature	Daily average temperature (°C)
+humidity	Daily average humidity (%)
+num_residents	Number of people in the household
+day_of_week	Coded from 0 (Monday) to 6 (Sunday)
+water_usage	Total water used per day (liters)
 
-Output:
+📘 You can replace the simulated dataset with real data from municipal sources, IoT smart meters, or open sustainability datasets.
 
-Example: “Expected daily water use = 210 liters”
+🧠 Model Architecture
 
-🌍 Why It’s Unique
+This project uses a CNN–LSTM Hybrid Model built with TensorFlow/Keras.
 
-This project combines climate data, human behavioral patterns, and sustainability goals to create actionable insights. It supports environmental conservation efforts by promoting smarter resource usage at the household level.
+🏗️ Architecture Flow:
 
-📊 Dataset
+1D CNN Layers
 
-Source: Public water consumption datasets (e.g., Kaggle Water Consumption Dataset
- or municipal open data portals)
+Detect local temporal patterns across short time windows (e.g., 2–3 days).
 
-Data Features: Date, temperature, humidity, residents, water usage (liters/day)
+MaxPooling Layer
 
-Optional: Simulated or modified dataset can also be used if public data is unavailable.
+Reduces data dimensionality and captures dominant signals.
 
-🧩 Technologies Used
+LSTM Layer
 
-Python
+Captures long-term dependencies and weekly consumption patterns.
 
-Pandas, NumPy (Data Preprocessing)
+Dense Layers
 
-Scikit-learn / XGBoost (Modeling)
+Maps extracted features to a continuous output (predicted water usage).
 
-Matplotlib / Seaborn (Visualization)
+⚙️ Model Summary
+Layer	Type	Output Shape	Parameters
+1	Conv1D (64 filters, kernel=2)	(None, 6, 64)	832
+2	MaxPooling1D	(None, 3, 64)	0
+3	LSTM (64 units)	(None, 64)	33024
+4	Dense (64 units)	(None, 64)	4160
+5	Dense (1 unit)	(None, 1)	65
 
-Jupyter Notebook / Google Colab (Implementation)
+Total Parameters: ~38K
+Optimizer: Adam (LR=0.001)
+Loss Function: Mean Squared Error (MSE)
+Evaluation Metric: Mean Absolute Error (MAE)
 
-🔍 Steps to Implement
+🧮 Training and Evaluation
 
-Data Collection:
-Download or simulate water consumption dataset.
+Epochs: 50
 
-Data Preprocessing:
-Clean missing values, normalize data, and encode categorical variables (e.g., day of week).
+Batch Size: 16
 
-Model Building:
-Train Linear Regression and XGBoost models to predict water usage.
+Validation Split: 20%
 
-Evaluation:
-Use metrics like MAE, RMSE, and R² score to compare performance.
+Loss: Mean Squared Error (MSE)
 
-Visualization:
-Plot temperature vs. water usage, humidity trends, and model predictions.
+Metric: Mean Absolute Error (MAE)
 
-💡 Expected Outcomes
+The model achieved stable convergence with low validation loss, demonstrating strong generalization to unseen days.
 
-A trained machine learning model that predicts water usage per household per day.
+📊 Results and Visualization
+🔹 1. Training vs Validation Loss
 
-Visualization dashboard to show usage trends.
+Shows model convergence and overfitting behavior.
 
-Insights into how weather and behavior affect water demand.
+🔹 2. Actual vs Predicted Water Usage
 
-🧾 Future Scope
+Displays how closely predicted usage follows real consumption patterns.
 
-Integration with IoT-based smart meters for real-time predictions.
+🔹 3. Next-Day Prediction Output
 
-Development of a mobile/web dashboard for households to monitor usage.
+Example:
 
-Extension to community-level water demand forecasting.
+💧 Predicted next-day water usage: 421.56 liters
 
-👩‍💻 Internship Contribution
+💡 Sustainability Impact
 
-During this internship, the focus was on:
+This project directly supports UN Sustainable Development Goal (SDG) 6 — Clean Water and Sanitation, by promoting:
 
-Designing the problem statement and model workflow.
+Data-driven water conservation
 
-Collecting and preprocessing water usage data.
+Demand forecasting for water distribution
 
-Training and evaluating machine learning models.
+Smart city integration for sustainable resource management
 
-Interpreting model outputs to derive sustainability insights.
+With accurate forecasting, households can plan usage, and municipalities can minimize waste during high-demand periods.
+
+🧰 Tech Stack
+Category	Tools
+Language	Python 3.10+
+Libraries	TensorFlow, NumPy, Pandas, Scikit-learn, Matplotlib
+Environment	Jupyter Notebook / VS Code
+Model Type	CNN–LSTM Hybrid Regression Model
