@@ -1,5 +1,7 @@
 #GreenAI---AICTE
+
 💧 CNN–LSTM Hybrid Model for Sustainable Water Usage Prediction
+
 🧭 Project Overview
 
 Efficient water management is one of the biggest sustainability challenges faced by modern cities.
