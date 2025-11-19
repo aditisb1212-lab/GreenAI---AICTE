@@ -8,6 +8,9 @@ Original file is located at
 """
 
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 import streamlit as st
 import numpy as np
