@@ -1,7 +1,6 @@
 streamlit
-numpy
-pandas
 matplotlib
+pandas
+numpy
 scikit-learn
-tensorflow-cpu==2.16.1
-keras==3.5.0
+joblib
