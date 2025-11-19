@@ -7,45 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1W22q2RxokTPtLFgdq3SCmwdTbgqylMkp
 """
 
-# Colab cell 1 pyngrok
-!pip install -q streamlit pyngrok
 
-# Colab cell 2 (optional)
-from pyngrok import ngrok
-ngrok.set_auth_token("35f92WRNwLLzkBYwiV3F483cQpK_ZzGStrhbcnTgNpCxfxaY")   # replace with your token
-
-# Commented out IPython magic to ensure Python compatibility.
-# # Colab cell 3
-# %%bash
-# cat > app.py <<'PY'
-# import streamlit as st
-# 
-# st.title("Hello from Streamlit in Colab 🎉")
-# st.write("This is a minimal example.")
-# x = st.slider("pick a number", 0, 100, 25)
-# st.write("You picked:", x)
-# PY
-#
-
-# Colab cell 4
-from pyngrok import ngrok
-
-# open tunnel on Streamlit's default port 8501
-public_url = ngrok.connect(8501)
-print("Public URL:", public_url)
-
-# Colab cell 5
-# start streamlit and send output to logs (background)
-get_ipython().system_raw("streamlit run app.py > /content/streamlit.log 2>&1 &")
-
-# Colab cell 6 - view last 200 lines of log
-!tail -n 200 /content/streamlit.log
-
-# Colab cell 7 - kill all streamlit processes
-!pkill -f streamlit || true
-# and close ngrok tunnels if you like
-from pyngrok import ngrok
-ngrok.kill()
 
 import streamlit as st
 import numpy as np
