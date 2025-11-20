@@ -116,9 +116,78 @@ Smart city integration for sustainable resource management
 
 With accurate forecasting, households can plan usage, and municipalities can minimize waste during high-demand periods.
 
-🧰 Tech Stack
-Category	Tools
-Language	Python 3.10+
-Libraries	TensorFlow, NumPy, Pandas, Scikit-learn, Matplotlib
-Environment	Jupyter Notebook / VS Code
-Model Type	CNN–LSTM Hybrid Regression Model
+🔹 Features
+
+Predict next-day household water usage.
+
+Visualize training vs validation loss.
+
+Compare actual vs predicted water usage.
+
+Easy-to-use Streamlit Web App.
+
+Supports CSV file uploads for custom datasets.
+
+🛠 Technologies Used
+
+Python 3.10+
+
+TensorFlow / Keras
+
+Pandas & NumPy
+
+scikit-learn (MinMaxScaler, train_test_split)
+
+Matplotlib
+
+Streamlit (for deployment)
+
+📂 Project Structure
+GreenAI---AICTE/
+│
+├─ app.py              # Main Streamlit application
+├─ dataset.csv         # Sample dataset
+├─ requirements.txt    # Python dependencies
+└─ README.md           # Project documentation
+
+⚡ How to Run
+1️⃣ Clone Repository
+git clone https://github.com/aditisb1212-lab/GreenAI---AICTE.git
+cd GreenAI---AICTE
+
+2️⃣ Install Dependencies
+pip install -r requirements.txt
+
+3️⃣ Run Locally
+streamlit run app.py
+
+
+Open the local URL provided in the terminal to interact with the app.
+
+📈 App Workflow
+
+View Sample Data – Preview your dataset.
+
+Train Model – Select training epochs and train the CNN-LSTM model.
+
+View Loss Curves – Observe training vs validation loss.
+
+Actual vs Predicted Plot – Compare predicted vs real water usage.
+
+Predict Next-Day Usage – See the forecast for the next day.
+
+🔗 Live Deployment
+
+You can deploy this Streamlit app using:
+
+Streamlit Cloud
+
+Heroku / Railway (optional)
+
+📝 Notes
+
+Ensure dataset.csv is present in the project folder.
+
+Compatible with Python 3.10+ for TensorFlow >=2.12.
+
+Recommended to train on GPU for faster results.
