@@ -34,58 +34,70 @@ st.dataframe(dataset.head())
 scaler = MinMaxScaler()
 scaled = scaler.fit_transform(dataset)
 
+
+# ----------------------------
+# Sequence Generator
+# ----------------------------
 def create_sequences(data, seq_length=7):
     X, y = [], []
     for i in range(len(data) - seq_length):
-        X.append(data[i:i+seq_length, :-1])  # past 7 days features
-        y.append(data[i+seq_length, -1])     # next day target
+        X.append(data[i:i + seq_length, :-1])        # past 7 days
+        y.append(data[i + seq_length, -1])           # next-day target
     return np.array(X), np.array(y)
+
 
 seq_length = 7
 X, y = create_sequences(scaled, seq_length)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
+
+# ----------------------------
+# Build Model (cached)
+# ----------------------------
 @st.cache_resource
 def build_model():
     model = Sequential([
         Conv1D(64, kernel_size=2, activation='relu', input_shape=(seq_length, X_train.shape[2])),
         MaxPooling1D(pool_size=2),
         Dropout(0.2),
+
         LSTM(64, activation='tanh'),
         Dropout(0.3),
+
         Dense(64, activation='relu'),
         Dense(1, activation='linear')
     ])
+
     model.compile(optimizer=Adam(learning_rate=0.001), loss='mse', metrics=['mae'])
     return model
 
+
 model = build_model()
 
-st.header("🚀 Model Training")
-epochs = st.slider("Training Epochs", 10, 200, 50)
-if st.button("Train Model"):
-    with st.spinner("Training model... Please wait ⏳"):
-        history = model.fit(X_train, y_train, epochs=epochs, batch_size=16,
-                            validation_data=(X_test, y_test), verbose=0)
-    st.success("🎉 Model training complete!")
 
-if st.button("Train Model"):
-    with st.spinner("Training..."):
+# ----------------------------
+# Model Training
+# ----------------------------
+st.header("🚀 Model Training")
+
+epochs = st.slider("Training Epochs", 10, 200, 50)
+
+if st.button("Train Model", key="train_btn"):
+    with st.spinner("Training model... ⏳"):
         history = model.fit(
             X_train, y_train,
-            epochs=50,
+            epochs=epochs,
             batch_size=16,
             validation_data=(X_test, y_test),
             verbose=0
         )
 
-    st.success("Training Complete!")
+    st.success("🎉 Model training complete!")
 
-    # SHOW HISTORY KEYS
-    st.write("History keys:", history.history.keys())
-
-    # LOSS PLOTS
+    # ---- Training Loss Graph ----
     loss = history.history.get("loss", [])
     val_loss = history.history.get("val_loss", [])
 
@@ -93,12 +105,20 @@ if st.button("Train Model"):
         fig1, ax1 = plt.subplots()
         ax1.plot(loss, label="Training Loss")
         ax1.plot(val_loss, label="Validation Loss")
+        ax1.set_xlabel("Epochs")
+        ax1.set_ylabel("Loss")
+        ax1.grid(True)
         ax1.legend()
         st.pyplot(fig1)
     else:
-        st.error("❌ No loss data found.")
+        st.error("❌ Loss values missing.")
 
-# ----- Prediction on Test -----
+
+# ----------------------------
+# Prediction on Test Set
+# ----------------------------
+st.header("📊 Actual vs Predicted Water Usage")
+
 y_pred_scaled = model.predict(X_test)
 
 pred_full = np.zeros((len(y_pred_scaled), scaled.shape[1]))
@@ -110,9 +130,7 @@ true_full[:, -1] = y_test.flatten()
 y_pred = scaler.inverse_transform(pred_full)[:, -1]
 y_true = scaler.inverse_transform(true_full)[:, -1]
 
-
-# ----- Plot Actual vs Predicted -----
-st.subheader("🔎 Actual vs Predicted Water Usage")
+# Plot actual vs predicted
 fig2, ax2 = plt.subplots(figsize=(10, 4))
 ax2.plot(y_true[:100], label="Actual Usage", linewidth=2)
 ax2.plot(y_pred[:100], label="Predicted Usage", linestyle='--', linewidth=2)
@@ -123,10 +141,14 @@ ax2.legend()
 st.pyplot(fig2)
 
 
-# ----- Predict next day -----
-n_features = scaled.shape[1] - 1
+# ----------------------------
+# Predict Next Day
+# ----------------------------
+st.header("🔮 Predict Next-Day Water Usage")
 
+n_features = scaled.shape[1] - 1
 last_7 = scaled[-seq_length:, :-1].reshape(1, seq_length, n_features)
+
 next_scaled = model.predict(last_7)
 
 next_full = np.zeros((1, scaled.shape[1]))
